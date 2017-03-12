@@ -16,6 +16,7 @@ namespace Jfy
 		float frequency; 
 		float energyCurrent; 
 		float pvoltageAc; 
+		float energyTotal;
 
 	} InverterData;
 	
