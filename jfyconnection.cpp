@@ -1,6 +1,5 @@
 #include "jfyconnection.h"
 
-#include <unistd.h>
 #include <stdlib.h>
 #include <iostream>
 #include "jfycommon.h"
@@ -35,14 +34,14 @@ Connection::~Connection()
 bool Connection::init()
 {
 	srand( time( 0 ) );
-	
+
 	if ( !_conn->open() )
 		return false;
 
 	try {
 		// Re-register wtih the inverter
 		_conn->sendRequest( Data( Jfy::ReRegister, _sourceAddress, 0 ) );
-		
+
 		// Get the serial number
 		Data response = _conn->sendRequestReadResponse( Data( Jfy::OfflineQuery, _sourceAddress, 0 ) );
 
@@ -51,7 +50,7 @@ bool Connection::init()
 
 		_serialNumber = response.toString();
 
-		sleep( 1 );
+		//sleep( 1 );
 
 		Data request( SendRegisterAddress, _sourceAddress, 0 );
 		request.addData( _serialNumber );
@@ -122,14 +121,13 @@ bool Connection::readNormalInfo( InverterData* data )
 	int size = response.size();
 
 	data->temperature = Common::buildShort( buf[ 0 ], buf[ 1 ] ) / 10.0;
+	data->energyToday = Common::buildShort( buf[ 2 ], buf[ 3 ] ) / 100.0;
 	data->voltageDc = Common::buildShort( buf[ 4 ], buf[ 5 ] ) / 10.0;
-	data->energyCurrent = Common::buildShort( buf[ 6 ], buf[ 7 ] ) / 10.0;
-	data->energyToday = Common::buildShort( buf[ 10 ], buf[ 11 ] );
-	data->current = Common::buildShort( buf[ 12 ], buf[ 13 ] ) / 10.0;
-	data->voltageAc = Common::buildShort( buf[ 14 ], buf[ 15 ] ) / 10.0;
-	//data->frequency = Common::buildShort( buf[ 16 ], buf[ 17 ] ) / 100.0;
-	data->frequency = Common::buildShort( buf[ 10 ], buf[ 11 ] ) * 10.0;
-	data->pvoltageAc = Common::buildShort( buf[ 18 ], buf[ 19 ] ) / 10.0; 
+	data->current = Common::buildShort( buf[ 6 ], buf[ 7 ] ) / 10.0;
+	data->voltageAc = Common::buildShort( buf[ 8 ], buf[ 9 ] ) / 10.0;
+        data->frequency = Common::buildShort( buf[ 10 ], buf[ 11 ] ) * 10.0;
+	data->energyCurrent = Common::buildShort( buf[ 12 ], buf[ 13 ] );
+	data->energyTotal = Common::buildShort( buf[ 18 ], buf[ 19 ] ) / 10.0;
 
 	return true;
 }
