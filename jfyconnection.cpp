@@ -124,10 +124,11 @@ bool Connection::readNormalInfo( InverterData* data )
 	data->temperature = Common::buildShort( buf[ 0 ], buf[ 1 ] ) / 10.0;
 	data->voltageDc = Common::buildShort( buf[ 4 ], buf[ 5 ] ) / 10.0;
 	data->energyCurrent = Common::buildShort( buf[ 6 ], buf[ 7 ] ) / 10.0;
-	data->energyToday = Common::buildShort( buf[ 10 ], buf[ 11 ] ) / 100.0;
+	data->energyToday = Common::buildShort( buf[ 10 ], buf[ 11 ] );
 	data->current = Common::buildShort( buf[ 12 ], buf[ 13 ] ) / 10.0;
 	data->voltageAc = Common::buildShort( buf[ 14 ], buf[ 15 ] ) / 10.0;
-	data->frequency = Common::buildShort( buf[ 16 ], buf[ 17 ] ) / 100.0;
+	//data->frequency = Common::buildShort( buf[ 16 ], buf[ 17 ] ) / 100.0;
+	data->frequency = Common::buildShort( buf[ 10 ], buf[ 11 ] ) * 10.0;
 	data->pvoltageAc = Common::buildShort( buf[ 18 ], buf[ 19 ] ) / 10.0; 
 
 	return true;
