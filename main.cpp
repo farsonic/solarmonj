@@ -58,7 +58,7 @@ std::ostringstream curr_val_str;
 curr_val_str << "curl -d \"d=" << currentDate() << 
 "\" -d \"t=" << currentTime() <<
 "\" -d \"v1=" << data.frequency <<
-"\" -d \"v2=" << data.energyToday <<
+"\" -d \"v2=" << abs(data.energyToday) <<
 "\" -d \"v5=" << data.temperature <<
 "\" -d \"v6=" << data.voltageDc <<
 "\" -H \"X-Pvoutput-Apikey: " << APIKey <<
@@ -81,7 +81,7 @@ std::ostringstream curr_val_str;
 curr_val_str << "curl -d \"d=" << currentDate() << 
 "\" -d \"t=" << currentTime() <<
 "\" -d \"v1=" << data.frequency <<
-"\" -d \"v2=" << data.energyToday <<
+"\" -d \"v2=" << abs(data.energyToday) <<
 "\" -d \"v5=" << data.temperature <<
 "\" -d \"v6=" << data.voltageDc <<
 "\" -H \"X-Pvoutput-Apikey: " << APIKey <<
